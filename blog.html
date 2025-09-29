@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - TechSolutions</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ff6b6b;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+        
+        /* Navbar Styles */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            margin: 0 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+        
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 100px 0 80px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+        
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Blog Section */
+        .blog-section {
+            padding: 100px 0;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            height: 100%;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .blog-image {
+            height: 220px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .blog-card:hover .blog-image::before {
+            transform: translateX(100%);
+        }
+        
+        .blog-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .blog-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 220px);
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .blog-tag {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .blog-excerpt {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+        
+        .read-more:hover {
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+        
+        /* Newsletter Section */
+        .newsletter-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .newsletter-card {
+            background: white;
+            border-radius: 25px;
+            padding: 60px 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 25px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: white;
+        }
+        
+        .btn-newsletter {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            white-space: nowrap;
+        }
+        
+        .btn-newsletter:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        /* Search and Filter */
+        .search-filter {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+        }
+        
+        .search-input {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .filter-tag {
+            background: #f8f9fa;
+            color: var(--text-dark);
+            border: 2px solid #e9ecef;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-image {
+                height: 180px;
+                font-size: 1rem;
+            }
+            
+            .blog-content {
+                padding: 25px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .newsletter-input {
+                min-width: 100%;
+            }
+            
+            .filter-tags {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-lightning-charge-fill me-2"></i>TechSolutions
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sobre.html">
+                            <i class="bi bi-info-circle-fill me-1"></i>Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="servicos.html">
+                            <i class="bi bi-gear-fill me-1"></i>Serviços
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="galeria.html">
+                            <i class="bi bi-images me-1"></i>Galeria
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">
+                            <i class="bi bi-envelope-fill me-1"></i>Contato
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="blog.html">
+                            <i class="bi bi-journal-text me-1"></i>Blog
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content" data-aos="fade-up">
+                <h1 class="display-3 fw-bold mb-3">Blog TechSolutions</h1>
+                <p class="lead">Fique por dentro das últimas tendências em tecnologia e desenvolvimento</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="container">
+            <!-- Search and Filter -->
+            <div class="search-filter" data-aos="fade-up">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control search-input" placeholder="Buscar artigos..." id="searchInput">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="filter-tags">
+                            <span class="filter-tag active" data-filter="all">Todos</span>
+                            <span class="filter-tag" data-filter="ia">IA</span>
+                            <span class="filter-tag" data-filter="web">Web</span>
+                            <span class="filter-tag" data-filter="mobile">Mobile</span>
+                            <span class="filter-tag" data-filter="seguranca">Segurança</span>
+                            <span class="filter-tag" data-filter="design">Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4" id="blogGrid">
+                <div class="col-lg-4 col-md-6 blog-item" data-category="ia" data-aos="fade-up" data-aos-delay="100">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-robot"></i>
+                                </div>
+                                <div>Inteligência Artificial</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>15 de Setembro, 2025
+                                </span>
+                                <span class="blog-tag">IA</span>
+                            </div>
+                            <h2 class="blog-title">O Futuro da Inteligência Artificial nos Negócios</h2>
+                            <p class="blog-excerpt">Descubra como a IA está revolucionando diferentes setores e como sua empresa pode se beneficiar dessa tecnologia transformadora.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 blog-item" data-category="web" data-aos="fade-up" data-aos-delay="200">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-code-slash"></i>
+                                </div>
+                                <div>Desenvolvimento Web</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>12 de Setembro, 2025
+                                </span>
+                                <span class="blog-tag">Web</span>
+                            </div>
+                            <h2 class="blog-title">Tendências em Desenvolvimento Web para 2025</h2>
+                            <p class="blog-excerpt">Conheça as principais tendências que estão moldando o desenvolvimento web e como implementá-las em seus projetos.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 blog-item" data-category="mobile" data-aos="fade-up" data-aos-delay="300">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-phone"></i>
+                                </div>
+                                <div>Apps Mobile</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>08 de Setembro, 2025
+                                </span>
+                                <span class="blog-tag">Mobile</span>
+                            </div>
+                            <h2 class="blog-title">Apps Mobile: Nativo vs. Híbrido em 2025</h2>
+                            <p class="blog-excerpt">Análise completa sobre as vantagens e desvantagens de cada abordagem para desenvolvimento mobile.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 blog-item" data-category="seguranca" data-aos="fade-up" data-aos-delay="400">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <div>Segurança Digital</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>05 de Setembro, 2025
+                                </span>
+                                <span class="blog-tag">Segurança</span>
+                            </div>
+                            <h2 class="blog-title">Segurança Digital: Protegendo Seus Dados</h2>
+                            <p class="blog-excerpt">Dicas essenciais para manter seus dados seguros e proteger sua empresa contra ameaças digitais.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 blog-item" data-category="design" data-aos="fade-up" data-aos-delay="500">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-palette"></i>
+                                </div>
+                                <div>UX/UI Design</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>01 de Setembro, 2025
+                                </span>
+                                <span class="blog-tag">Design</span>
+                            </div>
+                            <h2 class="blog-title">Princípios de UX/UI para Conversão</h2>
+                            <p class="blog-excerpt">Como criar interfaces que não apenas encantam os usuários, mas também convertem visitantes em clientes.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 blog-item" data-category="web" data-aos="fade-up" data-aos-delay="600">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <div class="text-center">
+                                <div class="blog-icon">
+                                    <i class="bi bi-cloud"></i>
+                                </div>
+                                <div>Cloud Computing</div>
+                            </div>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-date">
+                                    <i class="bi bi-calendar3 me-2"></i>28 de Agosto, 2025
+                                </span>
+                                <span class="blog-tag">Cloud</span>
+                            </div>
+                            <h2 class="blog-title">Migração para a Nuvem: Guia Completo</h2>
+                            <p class="blog-excerpt">Tudo o que você precisa saber para migrar seus sistemas para a nuvem de forma segura e eficiente.</p>
+                            <a href="#" class="read-more">
+                                Ler mais <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-card" data-aos="zoom-in">
+                <h2 class="display-5 fw-bold mb-3">Newsletter</h2>
+                <p class="lead text-muted mb-4">Receba as últimas novidades diretamente no seu email</p>
+                <form class="newsletter-form">
+                    <input type="email" class="newsletter-input" placeholder="Seu melhor email" required>
+                    <button type="submit" class="btn btn-newsletter">
+                        <i class="bi bi-envelope-fill me-2"></i>Assinar Newsletter
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p class="mb-0">&copy; 2025 TechSolutions. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 30px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            }
+        });
+        
+        // Filter functionality
+        const filterTags = document.querySelectorAll('.filter-tag');
+        const blogItems = document.querySelectorAll('.blog-item');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                // Remove active class from all tags
+                filterTags.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tag
+                tag.classList.add('active');
+                
+                const filterValue = tag.getAttribute('data-filter');
+                
+                blogItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                        item.style.animation = 'fadeInUp 0.5s ease';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            blogItems.forEach(item => {
+                const title = item.querySelector('.blog-title').textContent.toLowerCase();
+                const excerpt = item.querySelector('.blog-excerpt').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn-newsletter');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Inscrevendo...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i>Inscrito!';
+                btn.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.background = '';
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+
